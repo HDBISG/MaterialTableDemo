@@ -119,7 +119,16 @@ class ListTransactions extends React.Component {
                 icons={tableIcons}
                 title=""
                 columns={[
-                  { title: 'modelID', field: 'modelID' },
+                  { title: 'log id', field: 'modelID' },
+                  { title: 'Ref No', field: 'coexlogMsgRefNo' },
+                  { title: 'Function', field: 'coexlogMsgFunc' },
+                  { title: 'Doc No', field: 'coexlogDocNo' },
+                  { title: 'Doc Ref No', field: 'coexlogDocRefNo' },
+                  { title: 'Version', field: 'coexlogMsgVersion' },
+                  { title: 'Sender', field: 'coexlogMsgSender' },
+                  { title: 'Receiver', field: 'coexlogMsgReceiver' },
+                  { title: 'Status', field: 'coexlogProcessStatus' },
+                  { title: 'Created Date', field: 'coexlogDtCreate' },
                 ]}
                 data = {this.state.details}
                 options={{
