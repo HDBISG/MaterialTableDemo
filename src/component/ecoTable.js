@@ -24,6 +24,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
+import axios from "axios";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -58,25 +59,20 @@ class ListTransactions extends React.Component {
   constructor(props) {
     super(props);
 
-    this.accountIdRef = React.createRef();
-    this.etherRef = React.createRef();
   }
 
   state = { accountId: "", ether: "", result: "", msg: "", details: [] };
 
   componentDidMount() {
-    this.accountIdRef.current.focus();
+
   }
 
   onClickListTransaction = async (event) => {
-    if (this.state.accountId === "") {
-      this.accountIdRef.current.focus();
-      return;
-    }
 
-    await TTGWApi.post("/listTransaction", {
-      accountId: this.state.accountId,
-    })
+
+//    var requestURL1 = "http://localhost:8080/ECOPortal/coexMsgLog/list/json/?sEcho=3&iColumns=11&iDisplayStart=40&iDisplayLength=10&iSortCol_0=0&sSortDir_0=asc&iSortingCols=1&mDataProp_0=coexlogId&mDataProp_1=coexlogMsgRefNo&mDataProp_2=coexlogMsgFunc&mDataProp_3=coexlogDocNo&mDataProp_4=coexlogDocRefNo&mDataProp_5=coexlogDocGroup&mDataProp_6=coexlogMsgVersion&mDataProp_7=coexlogMsgSender&mDataProp_8=coexlogMsgReceiver&mDataProp_9=coexlogProcessStatus&mDataProp_10=coexlogDtCreat";
+    var requestURL1 = "http://xco.vcargocloud.com/ECOPortal/coexMsgLog/list/json/?sEcho=3&iColumns=11&iDisplayStart=40&iDisplayLength=10&iSortCol_0=0&sSortDir_0=asc&iSortingCols=1&mDataProp_0=coexlogId&mDataProp_1=coexlogMsgRefNo&mDataProp_2=coexlogMsgFunc&mDataProp_3=coexlogDocNo&mDataProp_4=coexlogDocRefNo&mDataProp_5=coexlogDocGroup&mDataProp_6=coexlogMsgVersion&mDataProp_7=coexlogMsgSender&mDataProp_8=coexlogMsgReceiver&mDataProp_9=coexlogProcessStatus&mDataProp_10=coexlogDtCreat";
+    await TTGWApi.get(requestURL1 )
       .catch((err) => {
         console.log(`err: ${JSON.stringify(err)}`);
         this.setState({ result: err.message });
@@ -86,9 +82,7 @@ class ListTransactions extends React.Component {
         if (response) {
           console.log(`topUp: ${JSON.stringify(response)}`);
           this.setState({
-            result: response.data.status,
-            msg: response.data.msg,
-            details: response.data.details,
+            details: response.data.aaData,
           });
         }
       });
@@ -105,21 +99,7 @@ class ListTransactions extends React.Component {
           List Transactions
         </Typography>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="accountId"
-              name="accountId"
-              label="AccountId"
-              fullWidth
-              variant="outlined"
-              inputRef={this.accountIdRef}
-              value={this.state.accountId}
-              onChange={(event) =>
-                this.setState({ accountId: event.target.value })
-              }
-            />
-          </Grid>
+
 
           <Grid item xs={6} sm={3}>
             <Button
@@ -139,11 +119,7 @@ class ListTransactions extends React.Component {
                 icons={tableIcons}
                 title=""
                 columns={[
-                  { title: 'TimeStamp', field: 'timeStamp' },
-                  { title: 'value', field: 'value' },
-                  { title: 'gas', field: 'gas' },
-                  { title: 'gas Price', field: 'gasPrice' },
-                  { title: 'result', field: 'isError' },
+                  { title: 'modelID', field: 'modelID' },
                 ]}
                 data = {this.state.details}
                 options={{
