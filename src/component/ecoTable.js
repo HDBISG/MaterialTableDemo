@@ -62,7 +62,7 @@ class ListTransactions extends React.Component {
     super(props);
   }
 
-  state = { accountId: "", ether: "", result: "", msg: "", details: [] };
+  state = { accountId: "",  result: "", msg: "", details: [] };
 
   componentDidMount() {
 
@@ -71,8 +71,6 @@ class ListTransactions extends React.Component {
 
   render() {
     const { classes } = this.props;
-
-    console.log( TTGWApi );
 
     return (
       <React.Fragment>

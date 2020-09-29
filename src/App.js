@@ -62,6 +62,12 @@ class App extends React.Component {
               <Grid item xs={1} sm={1}></Grid>
             </Grid>
           </Grid>
+          <Grid>
+            <Grid item xs={12} sm={12}>
+            <br/>&nbsp;
+            <br/>&nbsp;
+            </Grid>
+          </Grid>
           <Grid item xs={12} sm={12}>
             <BaseAppBar />
           </Grid>
