@@ -155,6 +155,16 @@ class ListTransactions extends React.Component {
                   
                   let url = RequestConfig.baseURL + requestURL1;
                   console.log("url=" + url );
+                  console.log("search=" + query.search );
+                  if ( query.orderBy ) {
+                    console.log(query.orderBy.field, query.orderDirection );
+                  }
+                  if ( query.filters && query.filters.length > 0 ) {
+                    console.log(query.filters[0].column.field, query.filters[0].value);
+                  }
+                  if ( query.filters && query.filters.length > 1 ) {
+                    console.log(query.filters[1].column.field, query.filters[1].value);
+                  }
 
                   url += '&per_page=' + query.pageSize
                   url += '&page=' + (query.page + 1)
@@ -163,7 +173,7 @@ class ListTransactions extends React.Component {
                     .then(result => {
                       resolve({
                         data: result.aaData,
-                        page: 1,
+                        page: 0,
                         totalCount: result.iTotalRecords,
                       })
                     })
