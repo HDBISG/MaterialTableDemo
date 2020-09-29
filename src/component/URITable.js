@@ -90,7 +90,7 @@ class ListTransactions extends React.Component {
                 columns={[
                   { title: 'id', field: 'modelID' },
                   { title: 'appsCode', field: 'appsCode' },
-                  { title: 'status', field: 'status' 
+                  { title: 'status', field: 'uriStatus' 
                     , lookup: { "A":"Active", "I":"Inactive"},},
                   { title: 'type', field: 'uriType' },
                   { title: 'path', field: 'uriDetails' },
