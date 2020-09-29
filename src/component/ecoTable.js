@@ -68,28 +68,6 @@ class ListTransactions extends React.Component {
 
   }
 
-  onClickListTransaction = async (event) => {
-
-
-//    var requestURL1 = "http://localhost:8080/ECOPortal/coexMsgLog/list/json/?sEcho=3&iColumns=11&iDisplayStart=40&iDisplayLength=10&iSortCol_0=0&sSortDir_0=asc&iSortingCols=1&mDataProp_0=coexlogId&mDataProp_1=coexlogMsgRefNo&mDataProp_2=coexlogMsgFunc&mDataProp_3=coexlogDocNo&mDataProp_4=coexlogDocRefNo&mDataProp_5=coexlogDocGroup&mDataProp_6=coexlogMsgVersion&mDataProp_7=coexlogMsgSender&mDataProp_8=coexlogMsgReceiver&mDataProp_9=coexlogProcessStatus&mDataProp_10=coexlogDtCreat";
-    var requestURL1 = "http://xco.vcargocloud.com/ECOPortal/coexMsgLog/list/json/?sEcho=3&iColumns=11&iDisplayStart=40&iDisplayLength=10&iSortCol_0=0&sSortDir_0=asc&iSortingCols=1&mDataProp_0=coexlogId&mDataProp_1=coexlogMsgRefNo&mDataProp_2=coexlogMsgFunc&mDataProp_3=coexlogDocNo&mDataProp_4=coexlogDocRefNo&mDataProp_5=coexlogDocGroup&mDataProp_6=coexlogMsgVersion&mDataProp_7=coexlogMsgSender&mDataProp_8=coexlogMsgReceiver&mDataProp_9=coexlogProcessStatus&mDataProp_10=coexlogDtCreat";
-    
-    
-    await TTGWApi.get(requestURL1 )
-      .catch((err) => {
-        console.log(`err: ${JSON.stringify(err)}`);
-        this.setState({ result: err.message });
-        return;
-      })
-      .then((response) => {
-        if (response) {
-          console.log(`topUp: ${JSON.stringify(response)}`);
-          this.setState({
-            details: response.data.aaData,
-          });
-        }
-      });
-  };
 
   render() {
     const { classes } = this.props;
@@ -103,17 +81,6 @@ class ListTransactions extends React.Component {
         </Typography>
         <Grid container spacing={3}>
 
-
-          <Grid item xs={6} sm={3}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                this.onClickListTransaction();
-              }}
-            >
-              Search
-            </Button>
-          </Grid>
 
           <Grid item xs={12} sm={12}>
             <Grid container spacing={3}>
