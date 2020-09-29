@@ -6,7 +6,8 @@ import BaseAppBar from "./navigation/BaseAppBar";
 import { withStyles } from "@material-ui/core/styles";
 import './App.css';
 import FetchAllDataTable from './component/FetchAllDataTable';
-import ListTransactions from './component/ecoTable';
+import CountryTable from './component/CountryTable';
+import URITable from './component/URITable';
 
 const useStyles = (theme) => ({
   root: {
@@ -33,7 +34,8 @@ class App extends React.Component {
 
   options = [
     <FetchAllDataTable />,
-    <ListTransactions />,
+    <CountryTable />,
+    <URITable />,
   ];
   getOption(option) {
     return this.options[parseInt(option)];

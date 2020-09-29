@@ -88,18 +88,11 @@ class ListTransactions extends React.Component {
                 icons={tableIcons}
                 title=""
                 columns={[
-                  { title: 'log id', field: 'modelID' },
-                  { title: 'Ref No', field: 'coexlogMsgRefNo' },
-                  { title: 'Function', field: 'coexlogMsgFunc' 
-                    , lookup: { "issue":"issue", "cancel":"cancel", "replace":"replace" },},
-                  { title: 'Doc No', field: 'coexlogDocNo' },
-                  { title: 'Doc Ref No', field: 'coexlogDocRefNo' },
-                  { title: 'Version', field: 'coexlogMsgVersion' },
-                  { title: 'Sender', field: 'coexlogMsgSender' },
-                  { title: 'Receiver', field: 'coexlogMsgReceiver' },
-                  { title: 'Status', field: 'coexlogProcessStatus' 
-                    , lookup: { "EXCEPTION":"EXCEPTION", "SUCCESS":"SUCCESS" }, },
-                  { title: 'Created Date', field: 'coexlogDtCreate' },
+                  { title: 'id', field: 'modelID' },
+                  { title: 'code', field: 'countryCode' },
+                  { title: 'status', field: 'status' 
+                    , lookup: { "A":"Active", "I":"Inactive"},},
+                  { title: 'description', field: 'description' }
                 ]}
                 onSearchChange = {() => {
                   //console.log(tableRef.current.DataManager.filteredData.length);
@@ -116,7 +109,7 @@ class ListTransactions extends React.Component {
                // data = {this.state.details}
               data={query =>
                 new Promise((resolve, reject) => {
-                  var requestURL1 = "/coexMsgLog/list/json/?sEcho=3&iColumns=11&iDisplayStart=40&iDisplayLength=10&iSortCol_0=0&sSortDir_0=asc&iSortingCols=1&mDataProp_0=coexlogId&mDataProp_1=coexlogMsgRefNo&mDataProp_2=coexlogMsgFunc&mDataProp_3=coexlogDocNo&mDataProp_4=coexlogDocRefNo&mDataProp_5=coexlogDocGroup&mDataProp_6=coexlogMsgVersion&mDataProp_7=coexlogMsgSender&mDataProp_8=coexlogMsgReceiver&mDataProp_9=coexlogProcessStatus&mDataProp_10=coexlogDtCreat";
+                  var requestURL1 = "/countryCode/list/json/?sEcho=3&iDisplayStart=0&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=ctyCode&iColumns=1";
                   
                   let url = RequestConfig.baseURL + requestURL1;
                   console.log("url=" + url );
