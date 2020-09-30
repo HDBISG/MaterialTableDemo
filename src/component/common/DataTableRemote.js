@@ -76,7 +76,9 @@ class DataTableRemote extends React.Component {
 
       data={ query => 
          new Promise((resolve, reject) => {
+
           let displayStart = this.getDisplayStart(query);
+          
           var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3" 
             + "&iDisplayStart=" + displayStart
             + "&iDisplayLength=" + query.pageSize
@@ -84,17 +86,7 @@ class DataTableRemote extends React.Component {
             + this.getQueryFieldParams(this.props.columns, query);
           
           let url = RequestConfig.baseURL + requestURL1;
-          console.log("this.props=" + this.props.moduleId );
-          console.log("search=" + query.search );
-          if ( query.orderBy ) {
-            console.log(query.orderBy.field, query.orderDirection );
-          }
-          if ( query.filters && query.filters.length > 0 ) {
-            console.log(query.filters[0].column.field, query.filters[0].value);
-          }
-          if ( query.filters && query.filters.length > 1 ) {
-            console.log(query.filters[1].column.field, query.filters[1].value);
-          }
+
           this.previiousPageNo = query.page;
 
           fetch(url)
