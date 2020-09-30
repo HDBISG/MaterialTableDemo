@@ -62,10 +62,11 @@ class FetchAllDataTable extends React.Component {
     super(props);
   }
 
-  state = { accountId: "", ether: "", result: "", msg: "", details: [] };
+  state = { accountId: "", ether: "", result: "", msg: "", details: [], isLoading: true };
 
   componentDidMount() {
     this.onClickListTransaction();
+    console.log(`end componentDidMount`);
   }
 
   onClickListTransaction = async (event) => {
@@ -80,9 +81,10 @@ class FetchAllDataTable extends React.Component {
       })
       .then((response) => {
         if (response) {
-          console.log(`topUp: ${JSON.stringify(response)}`);
+          console.log(`CO: ${JSON.stringify(response)}`);
           this.setState({
             details: response.data.aaData,
+            isLoading : false
           });
         }
       });
@@ -105,6 +107,7 @@ class FetchAllDataTable extends React.Component {
                 tableRef={tableRef}
                 icons={tableIcons}
                 title=""
+                isLoading={this.state.isLoading}
                 columns={[
                   { title: 'log id', field: 'modelID' },
                   { title: 'Ref No', field: 'coexlogMsgRefNo' },

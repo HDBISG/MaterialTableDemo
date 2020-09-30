@@ -53,6 +53,8 @@ class MaterialTableRemote extends React.Component {
   previiousPageNo = 0;
   currentPageNo = 0;
 
+  state = { accountId: "", ether: "", result: "", msg: "", details: [] };
+  
   constructor(props) {
     super(props);
   }
@@ -62,7 +64,9 @@ class MaterialTableRemote extends React.Component {
   }
 
   render() {
-    return <MaterialTable {...this.props} {...this.state}  icons={ tableIcons } 
+    return <MaterialTable {...this.props} {...this.state}  
+      icons={ tableIcons } 
+      isLoading={this.state.isLoading}
       onSearchChange = {() => {
         console.log(`onSearchChange`);
       }}
@@ -79,9 +83,10 @@ class MaterialTableRemote extends React.Component {
       data={ query => //{
         //var props = this.props; // This line is important.
          new Promise((resolve, reject) => {
-          var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3" 
+          var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3&iColumns=1" 
             + "&iDisplayStart=" + this.getDisplayStart(query) 
-            + "&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=uriId&iColumns=1";
+            + "&iDisplayLength=" + query.pageSize
+            + "&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=uriId";
           
           let url = RequestConfig.baseURL + requestURL1;
           console.log("this.props=" + this.props.moduleId );
@@ -105,7 +110,7 @@ class MaterialTableRemote extends React.Component {
               resolve({
                 data: result.aaData,
                 page: this.currentPageNo,
-                totalCount: result.iTotalRecords,
+                totalCount: result.iTotalDisplayRecords,
               })
             })
         })
