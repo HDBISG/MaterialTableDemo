@@ -50,6 +50,9 @@ const tableRef = React.createRef();
 
 class MaterialTableRemote extends React.Component {
 
+  previiousPageNo = 0;
+  currentPageNo = 0;
+
   constructor(props) {
     super(props);
   }
@@ -59,29 +62,26 @@ class MaterialTableRemote extends React.Component {
   }
 
   render() {
-      return <MaterialTable {...this.props} {...this.state}  icons={ tableIcons } 
+    return <MaterialTable {...this.props} {...this.state}  icons={ tableIcons } 
       onSearchChange = {() => {
         console.log(`onSearchChange`);
-        super.setIDisplayStart(0);
       }}
       onOrderChange = {() => {
         console.log(`onOrderChange`);
-        super.setIDisplayStart(0);
       }}
       onChangePage = {() => {
-        console.log(`onSelectionChange`);
+        console.log(`onSelectionChange `);
       }}
       onChangeRowsPerPage = {() => {
         console.log(`onSelectionChange`);
-        super.setIDisplayLength( tableRef.current.DataManager.pageSize );
       }}
 
-
-
-    data={ query => {
-        var props = this.props; // This line is important.
-        return new Promise((resolve, reject) => {
-          var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3&iDisplayStart=0&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=uriId&iColumns=1";
+      data={ query => //{
+        //var props = this.props; // This line is important.
+         new Promise((resolve, reject) => {
+          var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3" 
+            + "&iDisplayStart=" + this.getDisplayStart(query) 
+            + "&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=uriId&iColumns=1";
           
           let url = RequestConfig.baseURL + requestURL1;
           console.log("this.props=" + this.props.moduleId );
@@ -95,6 +95,7 @@ class MaterialTableRemote extends React.Component {
           if ( query.filters && query.filters.length > 1 ) {
             console.log(query.filters[1].column.field, query.filters[1].value);
           }
+          this.previiousPageNo = query.page;
 
           url += '&per_page=' + query.pageSize
           url += '&page=' + (query.page + 1)
@@ -103,15 +104,16 @@ class MaterialTableRemote extends React.Component {
             .then(result => {
               resolve({
                 data: result.aaData,
-                page: 0,
+                page: this.currentPageNo,
                 totalCount: result.iTotalRecords,
               })
             })
         })
-      }
+      //}
     }
     options={{
-      filtering: true
+      filtering: true,
+      search: false
     }}
     actions={[
       {
@@ -121,6 +123,16 @@ class MaterialTableRemote extends React.Component {
         onClick: () => tableRef.current && tableRef.current.onQueryChange(),
       }
     ]}/>;
+  }
+
+  getDisplayStart( query ) {
+    console.log(`previiousPageNo = ${this.previiousPageNo}  ${query.search} `   );
+    if( this.previiousPageNo == query.page ) {
+      this.currentPageNo = 0;
+      return 0;
+    }
+    this.currentPageNo = query.page;
+    return query.page * query.pageSize;
   }
 
   iDisplayStart = 0;

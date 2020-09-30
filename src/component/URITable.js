@@ -48,6 +48,7 @@ class ListTransactions  extends React.Component {
           <Grid item xs={12} sm={12}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12}>
+                
               <MaterialTableRemote
                 moduleId ="uri"
                 columns= {columns}
