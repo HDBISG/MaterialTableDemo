@@ -1,8 +1,6 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
-import DataTable from "./common/DataTable";
+import TTGWApi, {RequestConfig} from "../../api/remoteServer";
+import MaterialTable from 'material-table';
 
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
@@ -43,69 +41,54 @@ const tableIcons = {
   Refresh: forwardRef((props, ref) => <Refresh {...props} ref={ref} />)
 };
 
-const useStyles = (theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  title: {
-    flexGrow: 1,
-  },
-});
-
-const columns = [
-  { title: 'log id', field: 'coexlogId' },
-  { title: 'Ref No', field: 'coexlogMsgRefNo' },
-  { title: 'Function', field: 'coexlogMsgFunc' 
-    , lookup: { "issue":"issue", "cancel":"cancel", "replace":"replace" },},
-  { title: 'Doc No', field: 'coexlogDocNo' },
-  { title: 'Doc Ref No', field: 'coexlogDocRefNo' },
-  { title: 'Version', field: 'coexlogMsgVersion' },
-  { title: 'Sender', field: 'coexlogMsgSender' },
-  { title: 'Receiver', field: 'coexlogMsgReceiver' },
-  { title: 'Status', field: 'coexlogProcessStatus' 
-    , lookup: { "EXCEPTION":"EXCEPTION", "SUCCESS":"SUCCESS" }, },
-  { title: 'Created Date', field: 'coexlogDtCreate', defaultSort: 'desc' },
-];
 
 const tableRef = React.createRef();
 
-class CoTable extends React.Component {
+class DataTable extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
+  state = { accountId: "", ether: "", result: "", msg: "", details: [], isLoading: true };
 
+  componentDidMount() {
+    this.onClickListTransaction();
+    console.log(`end componentDidMount`);
   }
+
+  onClickListTransaction = async (event) => {
+
+   let requestURL = this.props.moduleId + "/list/json/?sEcho=3&iColumns=0&iDisplayStart=0&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0";
+ 
+    await TTGWApi.get(requestURL )
+      .catch((err) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+        this.setState({ result: err.message });
+        return;
+      })
+      .then((response) => {
+        if (response) {
+          console.log(`CO: ${JSON.stringify(response)}`);
+          this.setState({
+            details: response.data.aaData,
+            isLoading : false
+          });
+        }
+      });
+  };
 
   render() {
-    const { classes } = this.props;
-
-    return (
-      <React.Fragment>
-        <Typography variant="h6" gutterBottom>
-          List Transactions
-        </Typography>
-        <Grid container spacing={3}>
-
-          <Grid item xs={12} sm={12}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={12}>
-
-              <DataTable
-                moduleId ="coexMsgLog"
-                columns= {columns}
-              />
-
-              </Grid>
-            </Grid>
-          </Grid>
-
-
-        </Grid>
-      </React.Fragment>
-    );
+    return <MaterialTable {...this.props} {...this.state}  
+        icons={ tableIcons } 
+        title={ this.props.title||""}
+        isLoading={this.state.isLoading}
+        data = {this.state.details}
+        options={{
+          filtering: true
+        }}
+      />;
   }
+
 }
 
-export default withStyles(useStyles)(CoTable);
+export default DataTable;
