@@ -46,22 +46,86 @@ const tableIcons = {
   Refresh: forwardRef((props, ref) => <Refresh {...props} ref={ref} />)
 };
 
-const useStyles = (theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  title: {
-    flexGrow: 1,
-  },
-});
-
 const tableRef = React.createRef();
 
-class CommonTable extends React.Component {
+class MaterialTableRemote extends React.Component {
 
   constructor(props) {
     super(props);
   }
+
+  componentDidMount() {
+
+  }
+
+  render() {
+      return <MaterialTable {...this.props} {...this.state}  icons={ tableIcons } 
+      onSearchChange = {() => {
+        console.log(`onSearchChange`);
+        super.setIDisplayStart(0);
+      }}
+      onOrderChange = {() => {
+        console.log(`onOrderChange`);
+        super.setIDisplayStart(0);
+      }}
+      onChangePage = {() => {
+        console.log(`onSelectionChange`);
+      }}
+      onChangeRowsPerPage = {() => {
+        console.log(`onSelectionChange`);
+        super.setIDisplayLength( tableRef.current.DataManager.pageSize );
+      }}
+
+
+
+    data={ query => {
+        var props = this.props; // This line is important.
+        return new Promise((resolve, reject) => {
+          var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3&iDisplayStart=0&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=uriId&iColumns=1";
+          
+          let url = RequestConfig.baseURL + requestURL1;
+          console.log("this.props=" + this.props.moduleId );
+          console.log("search=" + query.search );
+          if ( query.orderBy ) {
+            console.log(query.orderBy.field, query.orderDirection );
+          }
+          if ( query.filters && query.filters.length > 0 ) {
+            console.log(query.filters[0].column.field, query.filters[0].value);
+          }
+          if ( query.filters && query.filters.length > 1 ) {
+            console.log(query.filters[1].column.field, query.filters[1].value);
+          }
+
+          url += '&per_page=' + query.pageSize
+          url += '&page=' + (query.page + 1)
+          fetch(url)
+            .then(response => response.json())
+            .then(result => {
+              resolve({
+                data: result.aaData,
+                page: 0,
+                totalCount: result.iTotalRecords,
+              })
+            })
+        })
+      }
+    }
+    options={{
+      filtering: true
+    }}
+    actions={[
+      {
+        icon: () => <Refresh/>,
+        tooltip: 'Refresh Data',
+        isFreeAction: true,
+        onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+      }
+    ]}/>;
+  }
+
+  iDisplayStart = 0;
+  iDisplayLength = 0;
+
   tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -85,8 +149,22 @@ class CommonTable extends React.Component {
 
   getTableIcons() {
     return this.tableIcons;
-}
+  }
+  
+  getIDisplayStart() {
+    return this.iDisplayStart;
+  }
+  setIDisplayStart( iDisplayStart ) {
+    this.iDisplayStart = iDisplayStart;
+  }
+  
+  getIDisplayLength() {
+    return this.iDisplayLength;
+  }
+  setIDisplayLength( iDisplayLength ) {
+    this.iDisplayLength = iDisplayLength;
+  }
   
 }
 
-export default CommonTable;
+export default MaterialTableRemote;

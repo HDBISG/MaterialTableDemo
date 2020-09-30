@@ -2,11 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import MaterialTable from 'material-table';
-import TTGWApi, {RequestConfig} from "../api/remoteServer";
-import CommonTable from "./common/CommonTable";
-import Refresh from '@material-ui/icons/Refresh';
-
+import MaterialTableRemote from "./common/MaterialTableRemote";
 
 const useStyles = (theme) => ({
   root: {
@@ -17,7 +13,6 @@ const useStyles = (theme) => ({
   },
 });
 
-const tableRef = React.createRef();
 
 
 const columns = [
@@ -30,7 +25,7 @@ const columns = [
   { title: 'active date', field: 'uriDtActive' }
 ];
 
-class ListTransactions extends CommonTable {
+class ListTransactions  extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -41,78 +36,21 @@ class ListTransactions extends CommonTable {
 
   }
 
-
   render() {
-    const { classes } = this.props;
-
-    console.log("super.tableIcons = " + super.getTableIcons() );
 
     return (
       <React.Fragment>
         <Typography variant="h6" gutterBottom>
-          List Transactions
+          List URI
         </Typography>
         <Grid container spacing={3}>
 
           <Grid item xs={12} sm={12}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12}>
-              <MaterialTable
-                tableRef={tableRef}
-                icons={ super.getTableIcons() }
-                title=""
+              <MaterialTableRemote
+                moduleId ="uri"
                 columns= {columns}
-                onSearchChange = {() => {
-                  console.log(`onSearchChange`);
-                }}
-                onOrderChange = {() => {
-                  console.log(`onOrderChange`);
-                }}
-                onSelectionChange = {() => {
-                  console.log(`onSelectionChange`);
-                }}
-               // data = {this.state.details}
-              data={query =>
-                new Promise((resolve, reject) => {
-                  var requestURL1 = "/uri/list/json/?sEcho=3&iDisplayStart=0&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=uriId&iColumns=1";
-                  
-                  let url = RequestConfig.baseURL + requestURL1;
-                  console.log("url=" + url );
-                  console.log("search=" + query.search );
-                  if ( query.orderBy ) {
-                    console.log(query.orderBy.field, query.orderDirection );
-                  }
-                  if ( query.filters && query.filters.length > 0 ) {
-                    console.log(query.filters[0].column.field, query.filters[0].value);
-                  }
-                  if ( query.filters && query.filters.length > 1 ) {
-                    console.log(query.filters[1].column.field, query.filters[1].value);
-                  }
-
-                  url += '&per_page=' + query.pageSize
-                  url += '&page=' + (query.page + 1)
-                  fetch(url)
-                    .then(response => response.json())
-                    .then(result => {
-                      resolve({
-                        data: result.aaData,
-                        page: 0,
-                        totalCount: result.iTotalRecords,
-                      })
-                    })
-                })
-              }
-              options={{
-                filtering: true
-              }}
-              actions={[
-                {
-                  icon: () => <Refresh/>,
-                  tooltip: 'Refresh Data',
-                  isFreeAction: true,
-                  onClick: () => tableRef.current && tableRef.current.onQueryChange(),
-                }
-              ]}
               />
 
               </Grid>
