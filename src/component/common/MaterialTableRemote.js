@@ -46,7 +46,6 @@ const tableRef = React.createRef();
 class MaterialTableRemote extends React.Component {
 
   previiousPageNo = 0;
-  currentPageNo = 0;
 
   state = { accountId: "", ether: "", result: "", msg: "", details: [] };
 
@@ -77,11 +76,12 @@ class MaterialTableRemote extends React.Component {
 
       data={ query => 
          new Promise((resolve, reject) => {
-          var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3&iColumns=1" 
-            + "&iDisplayStart=" + this.getDisplayStart(query) 
+          let displayStart = this.getDisplayStart(query);
+          var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3" 
+            + "&iDisplayStart=" + displayStart
             + "&iDisplayLength=" + query.pageSize
             + this.getSortParam(this.props.columns, query)
-            + "&mDataProp_0=uriId";
+            + this.getQueryFieldParams(this.props.columns, query);
           
           let url = RequestConfig.baseURL + requestURL1;
           console.log("this.props=" + this.props.moduleId );
@@ -102,7 +102,7 @@ class MaterialTableRemote extends React.Component {
             .then(result => {
               resolve({
                 data: result.aaData,
-                page: this.currentPageNo,
+                page: ( (displayStart>0)?query.page:0 ),
                 totalCount: result.iTotalDisplayRecords,
               })
             })
@@ -126,15 +126,27 @@ class MaterialTableRemote extends React.Component {
   getDisplayStart( query ) {
     console.log(`previiousPageNo = ${this.previiousPageNo}  ${query.search} `   );
     if( this.previiousPageNo == query.page ) {
-      this.currentPageNo = 0;
       return 0;
     }
-    this.currentPageNo = query.page;
     return query.page * query.pageSize;
   }
 
-  getQueryParam(query ) {
+  //&mDataProp_0=uriId&sSearch_0=uriId&sSearch_1=APPROVE
+  getQueryFieldParams( columns, query ) {
 
+    var idx = 0;
+    let [sortFieldName, sortDirectction] = this.getSortFiledNameAndDirection( columns, query );
+    var fieldParams = "";
+    if( sortDirectction) {
+      fieldParams = `&mDataProp_${idx}=${sortFieldName}`;
+      idx++;
+    }
+    if( query.filters ) {
+      query.filters.forEach( filter => 
+        { fieldParams = fieldParams + `&mDataProp_${idx}=${filter.column.field}&sSearch_${idx}=${filter.value}`; idx++ });
+    }
+    fieldParams = fieldParams + `&iColumns=${idx}`;
+    return fieldParams;
   }
 
   // &iSortCol_0=0&sSortDir_0=asc&iSortingCols=0

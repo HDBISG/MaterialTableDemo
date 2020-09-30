@@ -28,6 +28,7 @@ class PortalNavigation extends React.Component {
   navigationActions = [
     { label: "CO", icon: <FolderIcon /> },
     { label: "Country", icon: <FolderIcon /> },
+    { label: "CO remote", icon: <FolderIcon /> },
     { label: "URI", icon: <FolderIcon /> },
   ];
 

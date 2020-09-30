@@ -7,6 +7,7 @@ import { withStyles } from "@material-ui/core/styles";
 import './App.css';
 import FetchAllDataTable from './component/FetchAllDataTable';
 import CountryTable from './component/CountryTable';
+import CoRemoteTable from './component/CoRemoteTable';
 import URITable from './component/URITable';
 
 const useStyles = (theme) => ({
@@ -35,6 +36,7 @@ class App extends React.Component {
   options = [
     <FetchAllDataTable />,
     <CountryTable />,
+    <CoRemoteTable />,
     <URITable />,
   ];
   getOption(option) {

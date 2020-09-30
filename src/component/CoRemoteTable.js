@@ -14,16 +14,21 @@ const useStyles = (theme) => ({
 });
 
 const columns = [
-  { title: 'Id', field: 'uriId', defaultSort:'desc' },
-  { title: 'AppsCode', field: 'appsCode' },
-  { title: 'Status', field: 'uriStatus' 
-    , lookup: { "A":"Active", "I":"Inactive"},},
-  { title: 'Type', field: 'uriType' },
-  { title: 'Path', field: 'uriDetails'},
-  { title: 'Active Date', field: 'uriDtActive' }
+  { title: 'log id', field: 'coexlogId' },
+  { title: 'Ref No', field: 'coexlogMsgRefNo' },
+  { title: 'Function', field: 'coexlogMsgFunc' 
+    , lookup: { "issue":"issue", "cancel":"cancel", "replace":"replace" },},
+  { title: 'Doc No', field: 'coexlogDocNo' },
+  { title: 'Doc Ref No', field: 'coexlogDocRefNo' },
+  { title: 'Version', field: 'coexlogMsgVersion' },
+  { title: 'Sender', field: 'coexlogMsgSender' },
+  { title: 'Receiver', field: 'coexlogMsgReceiver' },
+  { title: 'Status', field: 'coexlogProcessStatus' 
+    , lookup: { "EXCEPTION":"EXCEPTION", "SUCCESS":"SUCCESS" }, },
+  { title: 'Created Date', field: 'coexlogDtCreate', defaultSort: 'desc' },
 ];
 
-class ListTransactions  extends React.Component {
+class CoRemoteTable  extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -48,7 +53,7 @@ class ListTransactions  extends React.Component {
               <Grid item xs={12} sm={12}>
 
               <MaterialTableRemote
-                moduleId ="uri"
+                moduleId ="coexMsgLog"
                 columns= {columns}
               />
 
@@ -63,4 +68,4 @@ class ListTransactions  extends React.Component {
   }
 }
 
-export default withStyles(useStyles)(ListTransactions);
+export default withStyles(useStyles)(CoRemoteTable);

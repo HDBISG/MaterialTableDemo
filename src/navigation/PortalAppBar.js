@@ -45,9 +45,10 @@ export default function PortalAppBar(props) {
 
   const menuItems = () => {
     const menuItemList = [
-      "Fetch all data",
-      "Remote 1",
-      "Remote 2"
+      "CO",
+      "Country",
+      "CO Remote",
+      "URI"
     ].map((item, index) => {
       return (
         <MenuItem

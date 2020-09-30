@@ -109,7 +109,7 @@ class FetchAllDataTable extends React.Component {
                 title=""
                 isLoading={this.state.isLoading}
                 columns={[
-                  { title: 'log id', field: 'modelID' },
+                  { title: 'log id', field: 'coexlogId' },
                   { title: 'Ref No', field: 'coexlogMsgRefNo' },
                   { title: 'Function', field: 'coexlogMsgFunc' 
                     , lookup: { "issue":"issue", "cancel":"cancel", "replace":"replace" },},
