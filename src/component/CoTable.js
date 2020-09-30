@@ -57,7 +57,7 @@ const useStyles = (theme) => ({
 
 const tableRef = React.createRef();
 
-class FetchAllDataTable extends React.Component {
+class CoTable extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -159,4 +159,4 @@ class FetchAllDataTable extends React.Component {
   }
 }
 
-export default withStyles(useStyles)(FetchAllDataTable);
+export default withStyles(useStyles)(CoTable);

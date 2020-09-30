@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import MaterialTableRemote from "./common/MaterialTableRemote";
+import DataTableRemote from "./common/DataTableRemote";
 
 const useStyles = (theme) => ({
   root: {
@@ -23,7 +23,7 @@ const columns = [
   { title: 'Active Date', field: 'uriDtActive' }
 ];
 
-class ListTransactions  extends React.Component {
+class URIRemoteTable  extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -47,7 +47,7 @@ class ListTransactions  extends React.Component {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12}>
 
-              <MaterialTableRemote
+              <DataTableRemote
                 moduleId ="uri"
                 columns= {columns}
               />
@@ -63,4 +63,4 @@ class ListTransactions  extends React.Component {
   }
 }
 
-export default withStyles(useStyles)(ListTransactions);
+export default withStyles(useStyles)(URIRemoteTable);

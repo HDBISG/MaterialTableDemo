@@ -5,10 +5,10 @@ import PortalNavigation from "./navigation/PortalNavigation";
 import BaseAppBar from "./navigation/BaseAppBar";
 import { withStyles } from "@material-ui/core/styles";
 import './App.css';
-import FetchAllDataTable from './component/FetchAllDataTable';
+import CoTable from './component/CoTable';
 import CountryTable from './component/CountryTable';
 import CoRemoteTable from './component/CoRemoteTable';
-import URITable from './component/URITable';
+import URIRemoteTable from './component/URIRemoteTable';
 
 const useStyles = (theme) => ({
   root: {
@@ -34,10 +34,10 @@ class App extends React.Component {
   };
 
   options = [
-    <FetchAllDataTable />,
+    <CoTable />,
     <CountryTable />,
     <CoRemoteTable />,
-    <URITable />,
+    <URIRemoteTable />,
   ];
   getOption(option) {
     return this.options[parseInt(option)];

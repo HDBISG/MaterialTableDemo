@@ -43,7 +43,7 @@ const tableIcons = {
 
 const tableRef = React.createRef();
 
-class MaterialTableRemote extends React.Component {
+class DataTableRemote extends React.Component {
 
   previiousPageNo = 0;
 
@@ -163,10 +163,8 @@ class MaterialTableRemote extends React.Component {
   getSortFiledNameAndDirection( columns, query ) {
     if( query.orderBy && query.orderBy.field) {
        return [query.orderBy.field, query.orderDirection];
-    } else {
-      return this.getDefaultSortFieldNameAndDirection( columns );
-    } 
-    return null;
+    }
+    return this.getDefaultSortFieldNameAndDirection( columns );
   }
   
   /**
@@ -208,4 +206,4 @@ class MaterialTableRemote extends React.Component {
 
 }
 
-export default MaterialTableRemote;
+export default DataTableRemote;

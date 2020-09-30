@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import MaterialTableRemote from "./common/MaterialTableRemote";
+import DataTableRemote from "./common/DataTableRemote";
 
 const useStyles = (theme) => ({
   root: {
@@ -52,7 +52,7 @@ class CoRemoteTable  extends React.Component {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12}>
 
-              <MaterialTableRemote
+              <DataTableRemote
                 moduleId ="coexMsgLog"
                 columns= {columns}
               />
