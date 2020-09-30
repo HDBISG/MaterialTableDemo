@@ -14,13 +14,13 @@ const useStyles = (theme) => ({
 });
 
 const columns = [
-  { title: 'Id', field: 'uriId', defaultSort:'desc' },
-  { title: 'AppsCode', field: 'appsCode' },
-  { title: 'Status', field: 'uriStatus' 
+  { title: 'Id', field: 'uriId', defaultSort:'desc', width: 100 },
+  { title: 'AppsCode', field: 'appsCode', width: 100 },
+  { title: 'Status', field: 'uriStatus' , width: 100
     , lookup: { "A":"Active", "I":"Inactive"},},
-  { title: 'Type', field: 'uriType' },
-  { title: 'Path', field: 'uriDetails'},
-  { title: 'Active Date', field: 'uriDtActive' }
+  { title: 'Type', field: 'uriType', width: 100 },
+  { title: 'Path', field: 'uriDetails', width: 100},
+  { title: 'Active Date', field: 'uriDtActive', width: 100 }
 ];
 
 class URIRemoteTable  extends React.Component {

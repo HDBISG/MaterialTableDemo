@@ -103,7 +103,8 @@ class DataTableRemote extends React.Component {
     options={{
       filtering: true,
       search: false,
-      thirdSortClick: false
+      thirdSortClick: false,
+      tableLayout: 'fixed'
     }}
     actions={[
       {

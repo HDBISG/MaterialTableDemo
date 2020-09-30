@@ -14,18 +14,18 @@ const useStyles = (theme) => ({
 });
 
 const columns = [
-  { title: 'log id', field: 'coexlogId' },
-  { title: 'Ref No', field: 'coexlogMsgRefNo' },
-  { title: 'Function', field: 'coexlogMsgFunc' 
+  { title: 'log id', field: 'coexlogId', width: 100 },
+  { title: 'Ref No', field: 'coexlogMsgRefNo', width: 100 },
+  { title: 'Function', field: 'coexlogMsgFunc' , width: 100
     , lookup: { "issue":"issue", "cancel":"cancel", "replace":"replace" },},
-  { title: 'Doc No', field: 'coexlogDocNo' },
-  { title: 'Doc Ref No', field: 'coexlogDocRefNo' },
-  { title: 'Version', field: 'coexlogMsgVersion' },
-  { title: 'Sender', field: 'coexlogMsgSender' },
-  { title: 'Receiver', field: 'coexlogMsgReceiver' },
-  { title: 'Status', field: 'coexlogProcessStatus' 
-    , lookup: { "EXCEPTION":"EXCEPTION", "SUCCESS":"SUCCESS" }, },
-  { title: 'Created Date', field: 'coexlogDtCreate', defaultSort: 'desc' },
+  { title: 'Doc No', field: 'coexlogDocNo', width: 100 },
+  { title: 'Doc Ref No', field: 'coexlogDocRefNo', width: 100 },
+  { title: 'Version', field: 'coexlogMsgVersion', width: 100 },
+  { title: 'Sender', field: 'coexlogMsgSender', width: 100 },
+  { title: 'Receiver', field: 'coexlogMsgReceiver', width: 100 },
+  { title: 'Status', field: 'coexlogProcessStatus' , width: 100
+    , lookup: { "EXCEPTION":"EXCEPTION", "SUCCESS":"SUCCESS", width: 100 }, },
+  { title: 'Created Date', field: 'coexlogDtCreate', defaultSort: 'desc', width: 100 },
 ];
 
 class CoRemoteTable  extends React.Component {

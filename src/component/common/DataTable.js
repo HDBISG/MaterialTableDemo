@@ -20,30 +20,6 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-  Refresh: forwardRef((props, ref) => <Refresh {...props} ref={ref} />)
-};
-
-
-const tableRef = React.createRef();
-
 class DataTable extends React.Component {
   constructor(props) {
     super(props);
@@ -51,24 +27,47 @@ class DataTable extends React.Component {
 
   state = { accountId: "", ether: "", result: "", msg: "", details: [], isLoading: true };
 
+  tableIcons = {
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+    Refresh: forwardRef((props, ref) => <Refresh {...props} ref={ref} />)
+  };
+  
+  
+  tableRef = React.createRef();
+  
   componentDidMount() {
+    console.log(`begin  componentDidMount ${this}`);
     this.onClickListTransaction();
-    console.log(`end componentDidMount`);
+    console.log(` end componentDidMount ${this}`);
   }
 
   onClickListTransaction = async (event) => {
 
    let requestURL = this.props.moduleId + "/list/json/?sEcho=3&iColumns=0&iDisplayStart=0&iDisplayLength=1000&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0";
  
-    await TTGWApi.get(requestURL )
+    TTGWApi.get(requestURL )
       .catch((err) => {
         console.log(`err: ${JSON.stringify(err)}`);
-        this.setState({ result: err.message });
-        return;
+        this.setState({ result: "" });
       })
       .then((response) => {
         if (response) {
-          console.log(`CO: ${JSON.stringify(response)}`);
           this.setState({
             details: response.data.aaData,
             isLoading : false
@@ -79,12 +78,13 @@ class DataTable extends React.Component {
 
   render() {
     return <MaterialTable {...this.props} {...this.state}  
-        icons={ tableIcons } 
+        icons={ this.tableIcons } 
         title={ this.props.title||""}
         isLoading={this.state.isLoading}
         data = {this.state.details}
         options={{
-          filtering: true
+          filtering: true,
+          tableLayout: 'fixed'
         }}
       />;
   }
