@@ -54,7 +54,7 @@ class MaterialTableRemote extends React.Component {
   currentPageNo = 0;
 
   state = { accountId: "", ether: "", result: "", msg: "", details: [] };
-  
+
   constructor(props) {
     super(props);
   }
@@ -140,8 +140,10 @@ class MaterialTableRemote extends React.Component {
     return query.page * query.pageSize;
   }
 
-  iDisplayStart = 0;
-  iDisplayLength = 0;
+  getQueryParam(query ) {
+    
+  }
+
 
   tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -164,24 +166,6 @@ class MaterialTableRemote extends React.Component {
     Refresh: forwardRef((props, ref) => <Refresh {...props} ref={ref} />)
   };
 
-  getTableIcons() {
-    return this.tableIcons;
-  }
-  
-  getIDisplayStart() {
-    return this.iDisplayStart;
-  }
-  setIDisplayStart( iDisplayStart ) {
-    this.iDisplayStart = iDisplayStart;
-  }
-  
-  getIDisplayLength() {
-    return this.iDisplayLength;
-  }
-  setIDisplayLength( iDisplayLength ) {
-    this.iDisplayLength = iDisplayLength;
-  }
-  
 }
 
 export default MaterialTableRemote;

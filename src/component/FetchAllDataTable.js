@@ -120,7 +120,7 @@ class FetchAllDataTable extends React.Component {
                   { title: 'Receiver', field: 'coexlogMsgReceiver' },
                   { title: 'Status', field: 'coexlogProcessStatus' 
                     , lookup: { "EXCEPTION":"EXCEPTION", "SUCCESS":"SUCCESS" }, },
-                  { title: 'Created Date', field: 'coexlogDtCreate' },
+                  { title: 'Created Date', field: 'coexlogDtCreate', defaultSort: 'desc' },
                 ]}
                 onSearchChange = {() => {
                   //console.log(tableRef.current.DataManager.filteredData.length);
