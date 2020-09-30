@@ -19,7 +19,7 @@ const columns = [
   { title: 'Status', field: 'uriStatus' 
     , lookup: { "A":"Active", "I":"Inactive"},},
   { title: 'Type', field: 'uriType' },
-  { title: 'Path', field: 'uriDetails' },
+  { title: 'Path', field: 'uriDetails', defaultSort:'desc' },
   { title: 'Active Date', field: 'uriDtActive' }
 ];
 

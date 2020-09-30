@@ -1,9 +1,4 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import TTGWApi, {RequestConfig} from "../../api/remoteServer";
 import MaterialTable from 'material-table';
 
@@ -80,13 +75,13 @@ class MaterialTableRemote extends React.Component {
         console.log(`onSelectionChange`);
       }}
 
-      data={ query => //{
-        //var props = this.props; // This line is important.
+      data={ query => 
          new Promise((resolve, reject) => {
           var requestURL1 = "/" + this.props.moduleId + "/list/json/?sEcho=3&iColumns=1" 
             + "&iDisplayStart=" + this.getDisplayStart(query) 
             + "&iDisplayLength=" + query.pageSize
-            + "&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0&mDataProp_0=uriId";
+            + this.getSortParam(this.props.columns, query)
+            + "&mDataProp_0=uriId";
           
           let url = RequestConfig.baseURL + requestURL1;
           console.log("this.props=" + this.props.moduleId );
@@ -102,8 +97,6 @@ class MaterialTableRemote extends React.Component {
           }
           this.previiousPageNo = query.page;
 
-          url += '&per_page=' + query.pageSize
-          url += '&page=' + (query.page + 1)
           fetch(url)
             .then(response => response.json())
             .then(result => {
@@ -114,11 +107,11 @@ class MaterialTableRemote extends React.Component {
               })
             })
         })
-      //}
     }
     options={{
       filtering: true,
-      search: false
+      search: false,
+      thirdSortClick: false
     }}
     actions={[
       {
@@ -141,7 +134,42 @@ class MaterialTableRemote extends React.Component {
   }
 
   getQueryParam(query ) {
-    
+
+  }
+
+  // &iSortCol_0=0&sSortDir_0=asc&iSortingCols=0
+  getSortParam( columns, query ) {
+    let [sortFieldName, sortDirectction] = this.getSortFiledNameAndDirection( columns, query )
+    console.log('sortFieldName, sortDirectction = ${sortFieldName, sortDirectction}');
+    if( sortDirectction) {
+      return "&iSortCol_0=0&sSortDir_0="+ sortDirectction + "&iSortingCols=1";
+    }
+    // no sort
+    return "&iSortCol_0=0&sSortDir_0=asc&iSortingCols=0";
+  }
+
+  getSortFiledNameAndDirection( columns, query ) {
+    if( query.orderBy && query.orderBy.field) {
+       return [query.orderBy.field, query.orderDirection];
+    } else {
+      return this.getDefaultSortFieldNameAndDirection( columns );
+    } 
+    return null;
+  }
+  
+  /**
+   *  return [fieldname, 'desc']
+   * @param {*} columns 
+   */
+  getDefaultSortFieldNameAndDirection( columns ) {
+    var columnsTmp = columns;
+    columnsTmp = columnsTmp.filter(function(column){
+      return column.defaultSort != null && column.defaultSort != undefined; 
+    });
+    if( columnsTmp && columnsTmp.length > 0 ) {
+      return [columnsTmp[0].field, columnsTmp[0].defaultSort ] ;
+    }
+    return null;
   }
 
 
